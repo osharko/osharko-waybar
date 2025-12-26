@@ -1,0 +1,227 @@
+@import "../omarchy/current/theme/waybar.css";
+
+/* ML4W-Inspired Styles for OMArchy Waybar */
+
+* {
+  background-color: @background;
+  color: @foreground;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  font-family: 'JetBrainsMono Nerd Font';
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Main Window */
+window#waybar {
+  background-color: transparent;
+}
+
+/* Module Base Styling - Rounded corners and shadows */
+#workspaces,
+#custom-omarchy,
+#custom-quicklink1,
+#custom-quicklink2,
+#custom-quicklink3,
+#custom-quicklink4,
+#custom-quicklink5,
+#custom-theme-switcher,
+#cpu,
+#memory,
+#battery,
+#bluetooth,
+#network,
+#pulseaudio,
+#clock,
+#custom-update,
+#custom-screenrecording-indicator,
+#tray {
+  background-color: @background;
+  padding: 4px 12px;
+  margin: 4px 3px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Hover Effects */
+#custom-omarchy:hover,
+#custom-quicklink1:hover,
+#custom-quicklink2:hover,
+#custom-quicklink3:hover,
+#custom-quicklink4:hover,
+#custom-quicklink5:hover,
+#custom-theme-switcher:hover,
+#cpu:hover,
+#memory:hover,
+#battery:hover,
+#bluetooth:hover,
+#network:hover,
+#pulseaudio:hover {
+  background-color: alpha(@foreground, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Left Modules */
+.modules-left {
+  margin-left: 8px;
+}
+
+/* Center Modules */
+.modules-center {
+  margin: 0;
+}
+
+/* Right Modules */
+.modules-right {
+  margin-right: 8px;
+}
+
+/* Workspaces */
+#workspaces {
+  padding: 2px 6px;
+}
+
+#workspaces button {
+  all: initial;
+  padding: 4px 10px;
+  margin: 0 2px;
+  min-width: 20px;
+  background-color: alpha(@foreground, 0.05);
+  color: @foreground;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+  background-color: alpha(@foreground, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button.active {
+  background-color: alpha(@foreground, 0.25);
+  color: @foreground;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#workspaces button.empty {
+  opacity: 0.4;
+}
+
+/* Quicklinks Group */
+#custom-quicklink1,
+#custom-quicklink2,
+#custom-quicklink3,
+#custom-quicklink4,
+#custom-quicklink5 {
+  padding: 4px 10px;
+  margin: 4px 2px;
+  font-size: 14px;
+  min-width: 24px;
+}
+
+/* Theme Switcher - Special highlight */
+#custom-theme-switcher {
+  background: linear-gradient(135deg, alpha(@foreground, 0.1), alpha(@foreground, 0.05));
+  padding: 4px 12px;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+#custom-theme-switcher:hover {
+  background: linear-gradient(135deg, alpha(@foreground, 0.2), alpha(@foreground, 0.1));
+}
+
+/* System Info Group */
+#cpu,
+#memory,
+#battery {
+  padding: 4px 10px;
+  margin: 4px 3px;
+}
+
+#cpu {
+  color: #89dceb;
+}
+
+#memory {
+  color: #a6e3a1;
+}
+
+/* Battery States */
+#battery.warning {
+  color: #f9e2af;
+}
+
+#battery.critical {
+  color: #f38ba8;
+  font-weight: bold;
+}
+
+/* Connectivity Group */
+#bluetooth,
+#network,
+#pulseaudio {
+  padding: 4px 10px;
+  margin: 4px 3px;
+}
+
+/* Clock - Center piece */
+#clock {
+  font-weight: 600;
+  font-size: 14px;
+  padding: 4px 16px;
+  background: linear-gradient(135deg, alpha(@foreground, 0.08), alpha(@foreground, 0.04));
+}
+
+/* Update Indicator */
+#custom-update {
+  color: #f9e2af;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Screen Recording Indicator */
+#custom-screenrecording-indicator {
+  padding: 4px 10px;
+  font-size: 11px;
+}
+
+#custom-screenrecording-indicator.active {
+  color: #f38ba8;
+  font-weight: bold;
+}
+
+/* Tray */
+#tray {
+  padding: 4px 12px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: alpha(@foreground, 0.15);
+}
+
+/* Tooltip Styling */
+tooltip {
+  background-color: @background;
+  border: 1px solid alpha(@foreground, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+tooltip label {
+  color: @foreground;
+}
+
+/* Group Drawer Items */
+.system-info-item {
+  background-color: alpha(@background, 0.95);
+}

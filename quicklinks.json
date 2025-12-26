@@ -1,0 +1,27 @@
+{
+  "custom/quicklink1": {
+    "format": "",
+    "on-click": "xdg-open https://",
+    "tooltip-format": "Browser"
+  },
+  "custom/quicklink2": {
+    "format": "",
+    "on-click": "thunar",
+    "tooltip-format": "File Manager"
+  },
+  "custom/quicklink3": {
+    "format": "",
+    "on-click": "xdg-terminal-exec",
+    "tooltip-format": "Terminal"
+  },
+  "custom/quicklink4": {
+    "format": "",
+    "on-click": "code",
+    "tooltip-format": "VS Code"
+  },
+  "custom/quicklink5": {
+    "format": "󰇰",
+    "on-click": "thunderbird",
+    "tooltip-format": "Email"
+  }
+}
