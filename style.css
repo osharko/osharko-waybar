@@ -34,6 +34,7 @@ window#waybar {
 #bluetooth,
 #network,
 #pulseaudio,
+#pulseaudio\.microphone,
 #clock,
 #custom-update,
 #custom-screenrecording-indicator,
@@ -56,11 +57,12 @@ window#waybar {
 #custom-quicklink6:hover,
 #custom-theme-switcher:hover,
 #cpu:hover,
-#memory:hover,
 #battery:hover,
+#memory:hover,
 #bluetooth:hover,
 #network:hover,
-#pulseaudio:hover {
+#pulseaudio:hover,
+#pulseaudio\.microphone:hover {
   background-color: alpha(@foreground, 0.1);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
 }
@@ -139,18 +141,38 @@ window#waybar {
 
 /* System Info Group */
 #cpu,
-#memory,
 #battery {
   padding: 4px 10px;
   margin: 4px 3px;
 }
 
-#cpu {
-  color: #89dceb;
+#cpu.low {
+  color: #a6e3a1; /* Verde */
+}
+
+#cpu.medium {
+  color: #f9e2af; /* Giallo */
+}
+
+#cpu.high {
+  color: #f38ba8; /* Rosso */
 }
 
 #memory {
-  color: #a6e3a1;
+  padding: 4px 10px;
+  margin: 4px 3px;
+}
+
+#memory.low {
+  color: #a6e3a1; /* Verde */
+}
+
+#memory.medium {
+  color: #f9e2af; /* Giallo */
+}
+
+#memory.high {
+  color: #f38ba8; /* Rosso */
 }
 
 /* Battery States */
@@ -166,7 +188,8 @@ window#waybar {
 /* Connectivity Group */
 #bluetooth,
 #network,
-#pulseaudio {
+#pulseaudio,
+#pulseaudio\.microphone {
   padding: 4px 10px;
   margin: 4px 3px;
 }
