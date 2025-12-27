@@ -176,12 +176,16 @@ window#waybar {
 }
 
 /* Battery States */
+#battery {
+  color: #a6e3a1; /* Verde (40-100%) */
+}
+
 #battery.warning {
-  color: #f9e2af;
+  color: #f9e2af; /* Giallo (25-40%) */
 }
 
 #battery.critical {
-  color: #f38ba8;
+  color: #f38ba8; /* Rosso (0-25%) */
   font-weight: bold;
 }
 
@@ -192,6 +196,15 @@ window#waybar {
 #pulseaudio\.microphone {
   padding: 4px 10px;
   margin: 4px 3px;
+}
+
+/* Microphone Colors */
+#pulseaudio\.microphone {
+  color: #a6e3a1; /* Verde quando abilitato */
+}
+
+#pulseaudio\.microphone.source-muted {
+  color: #f38ba8; /* Rosso quando disabilitato */
 }
 
 /* Clock - Center piece */

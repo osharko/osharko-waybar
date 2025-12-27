@@ -5,10 +5,11 @@ A modern, feature-rich Waybar configuration inspired by ML4W dotfiles, designed 
 ## Features
 
 ### 🚀 Quicklinks
-5 customizable app launchers in the left section:
+6 customizable app launchers in the left section:
+- 🌐 Brave Browser
+- 📁 File Manager (Nautilus)
 - 📝 VS Code
 - 💬 Telegram
-- 🌐 Brave Browser
 - 📓 Obsidian
 - 💾 Timeshift
 
@@ -24,7 +25,8 @@ Integrated theme switcher button to quickly change OMArchy themes without openin
 ### 🔌 Connectivity
 - Bluetooth status
 - Network status with bandwidth info
-- Audio volume control
+- Audio volume control with fixed width formatting
+- Microphone status indicator (󰍬 MIC when active, 󰍭 MIC when muted)
 
 ### 🎯 Module Groups
 Organized modules in expandable groups:
@@ -39,6 +41,29 @@ Organized modules in expandable groups:
 - Gradient effects on clock and theme switcher
 - Responsive tooltips
 - Adaptive colors based on OMArchy theme
+
+## Recent Updates (2025-12-27)
+
+### ✅ Implemented
+- ✅ Added File Manager quicklink (Nautilus)
+- ✅ Added microphone status indicator with icons
+- ✅ Fixed audio volume formatting with fixed width (prevents shifting at 100%)
+- ✅ Removed battery tooltip from CPU hover (battery always visible separately)
+- ✅ Battery now shows percentage alongside icon
+
+### 🔧 TODO / Known Issues
+- ⚠️ **Dynamic battery colors not working** - Battery should change color based on charge level:
+  - 🔴 Red (0-25%)
+  - 🟡 Yellow (25-40%)
+  - 🟢 Green (40-100%)
+  - Currently stays white - CSS color states not applying correctly
+
+- ⚠️ **Microphone colors not working** - Microphone should change color based on status:
+  - 🟢 Green when active
+  - 🔴 Red when muted
+  - Currently stays white - CSS source-muted class not applying correctly
+
+These issues likely require investigating waybar's class assignment mechanism or using a different approach (e.g., custom scripts).
 
 ## Layout
 
@@ -180,7 +205,10 @@ You can add up to 10 quicklinks:
 - **Click CPU/Memory**: Open btop
 - **Click network**: Open network manager
 - **Click bluetooth**: Open bluetooth manager
-- **Click audio**: Open audio mixer
+- **Click audio**: Open audio mixer (wiremix)
+- **Right-click audio**: Toggle mute
+- **Click microphone**: Open audio mixer (wiremix)
+- **Right-click microphone**: Toggle microphone mute
 - **Click quicklinks**: Launch respective applications
 
 ## Troubleshooting

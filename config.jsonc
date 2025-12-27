@@ -118,8 +118,7 @@
       "transition-left-to-right": false
     },
     "modules": [
-      "cpu",
-      "battery"
+      "cpu"
     ]
   },
   "cpu": {
@@ -146,10 +145,10 @@
     }
   },
   "battery": {
-    "format": "{capacity}% {icon}",
-    "format-discharging": "{icon}",
-    "format-charging": "{icon}",
-    "format-plugged": "",
+    "format": "{icon} {capacity}%",
+    "format-discharging": "{icon} {capacity}%",
+    "format-charging": "{icon} {capacity}%",
+    "format-plugged": " {capacity}%",
     "format-icons": {
       "charging": [
         "󰢜",
@@ -176,14 +175,14 @@
         "󰁹"
       ]
     },
-    "format-full": "󰂅",
+    "format-full": "󰂅 {capacity}%",
     "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
     "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
     "interval": 5,
     "on-click": "omarchy-menu power",
     "states": {
-      "warning": 20,
-      "critical": 10
+      "warning": 40,
+      "critical": 25
     }
   },
   "clock": {
@@ -220,12 +219,12 @@
     "on-click": "omarchy-launch-bluetooth"
   },
   "pulseaudio": {
-    "format": "{icon} {volume}%",
+    "format": "{icon} {volume:>3}%",
     "on-click": "omarchy-launch-or-focus-tui wiremix",
     "on-click-right": "pamixer -t",
     "tooltip-format": "Volume: {volume}%",
     "scroll-step": 5,
-    "format-muted": "🔇 {volume}%",
+    "format-muted": "🔇 {volume:>3}%",
     "format-icons": {
       "headphone": "🎧",
       "hands-free": "🎧",
@@ -238,8 +237,8 @@
   },
   "pulseaudio#microphone": {
     "format": "{format_source}",
-    "format-source": "",
-    "format-source-muted": "",
+    "format-source": "󰍬 MIC",
+    "format-source-muted": "󰍭 MIC",
     "on-click": "omarchy-launch-or-focus-tui wiremix",
     "on-click-right": "pamixer --default-source -t",
     "tooltip-format": "Microfono: {volume}%",
