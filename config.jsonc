@@ -66,30 +66,36 @@
       "custom/quicklink2",
       "custom/quicklink3",
       "custom/quicklink4",
-      "custom/quicklink5"
+      "custom/quicklink5",
+      "custom/quicklink6"
     ]
   },
   "custom/quicklink1": {
-    "format": "󰨞",
-    "on-click": "code",
-    "tooltip-format": "VS Code"
-  },
-  "custom/quicklink2": {
-    "format": "󰭹",
-    "on-click": "Telegram",
-    "tooltip-format": "Telegram"
-  },
-  "custom/quicklink3": {
     "format": "󰊯",
     "on-click": "brave",
     "tooltip-format": "Brave Browser"
   },
+  "custom/quicklink2": {
+    "format": "",
+    "on-click": "nautilus",
+    "tooltip-format": "File Manager"
+  },
+  "custom/quicklink3": {
+    "format": "󰨞",
+    "on-click": "code",
+    "tooltip-format": "VS Code"
+  },
   "custom/quicklink4": {
+    "format": "󰭹",
+    "on-click": "Telegram",
+    "tooltip-format": "Telegram"
+  },
+  "custom/quicklink5": {
     "format": "󱓷",
     "on-click": "obsidian",
     "tooltip-format": "Obsidian"
   },
-  "custom/quicklink5": {
+  "custom/quicklink6": {
     "format": "󰁯",
     "on-click": "timeshift-launcher",
     "tooltip-format": "Timeshift"

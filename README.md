@@ -1,129 +1,259 @@
-# ML4W-Inspired Waybar Configuration for OMArchy
+# Osharko Waybar - ML4W-Inspired Configuration for OMArchy
 
-Questa configurazione personalizzata aggiunge funzionalità in stile ML4W alla tua waybar OMArchy.
+A modern, feature-rich Waybar configuration inspired by ML4W dotfiles, designed specifically for OMArchy Linux.
 
-## Nuove Funzionalità
+## Features
 
-### 1. Quicklinks (Lato Sinistro)
-5 icone cliccabili per lanciare rapidamente le tue app preferite:
-- 🌐 Browser
-- 📁 File Manager
-- 💻 Terminal
+### 🚀 Quicklinks
+5 customizable app launchers in the left section:
 - 📝 VS Code
-- 📧 Email
+- 💬 Telegram
+- 🌐 Brave Browser
+- 📓 Obsidian
+- 💾 Timeshift
 
-**Personalizzare i quicklinks:**
-Modifica il file `~/.config/waybar/config.jsonc` nelle sezioni `custom/quicklink1-5`:
-```jsonc
-"custom/quicklink1": {
-  "format": "🎵",  // Cambia icona (usa Nerd Font icons)
-  "on-click": "spotify",  // Cambia comando
-  "tooltip-format": "Spotify"  // Cambia tooltip
-}
-```
+### 🎨 Theme Switcher
+Integrated theme switcher button to quickly change OMArchy themes without opening the menu.
 
-### 2. Theme Switcher (Lato Destro)
-Icona 🎨 per cambiare rapidamente tema OMArchy:
-- Clicca l'icona
-- Seleziona il tema da walker
-- Il tema verrà applicato immediatamente
+### 📊 System Monitoring
+- **CPU** usage with colored indicator
+- **Memory/RAM** usage monitoring
+- **Battery** status with adaptive icons
+- Click on any module to open btop for detailed stats
 
-### 3. Memory Monitor
-Nuovo modulo RAM accanto alla CPU che mostra:
-- Percentuale utilizzo
-- Tooltip con info dettagliate
-- Click per aprire btop
+### 🔌 Connectivity
+- Bluetooth status
+- Network status with bandwidth info
+- Audio volume control
 
-### 4. Gruppi di Moduli Avanzati
-I moduli sono organizzati in gruppi espandibili:
-- **System Info**: CPU, Memory, Battery (clicca per espandere)
-- **Connectivity**: Bluetooth, Network, Audio
-- **Tray**: Icone di sistema
+### 🎯 Module Groups
+Organized modules in expandable groups:
+- System Info (CPU, Memory, Battery)
+- Connectivity (Bluetooth, Network, Audio)
+- System Tray (always visible)
 
-### 5. Stili Visuali Avanzati
-- ✅ Bordi arrotondati su tutti i moduli
-- ✅ Ombre morbide
-- ✅ Effetti hover con animazioni
-- ✅ Transizioni fluide
-- ✅ Gradienti sul clock e theme switcher
-- ✅ Animazioni per batteria critica e screen recording
+### ✨ Visual Enhancements
+- Rounded corners on all modules
+- Soft shadows for depth
+- Smooth hover effects
+- Gradient effects on clock and theme switcher
+- Responsive tooltips
+- Adaptive colors based on OMArchy theme
 
-## Layout della Barra
+## Layout
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│ [Omarchy] [Workspaces] [🌐📁💻📝📧] ... [Clock] ... [🎨][System][Net][Tray] │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ [Omarchy] [Workspaces] [📝💬🌐📓💾] ... [Clock] ... [🎨][System][Net][Tray] │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-## File della Configurazione
+## Installation
 
-- **Config principale**: `~/.config/waybar/config.jsonc`
-- **Stili CSS**: `~/.config/waybar/style.css`
-- **Script theme switcher**: `~/.config/waybar/scripts/theme-switcher.sh`
-- **Backup originale**:
-  - `~/.config/waybar/config.jsonc.backup`
-  - `~/.config/waybar/style.css.backup`
+### Requirements
+- OMArchy Linux
+- Waybar
+- Optional: VS Code, Telegram, Brave, Obsidian, Timeshift
 
-## Comandi Utili
+### Quick Install
 
 ```bash
-# Ricarica waybar
-omarchy-restart-waybar
+# Clone the repository
+git clone git@github.com:osharko/osharko-waybar.git ~/.config/osharko-waybar
 
-# Ripristina configurazione originale
-cp ~/.config/waybar/config.jsonc.backup ~/.config/waybar/config.jsonc
-cp ~/.config/waybar/style.css.backup ~/.config/waybar/style.css
+# Run the installation script
+cd ~/.config/osharko-waybar
+./install.sh
+
+# Reload waybar
 omarchy-restart-waybar
 ```
 
-## Personalizzazione Avanzata
+### Manual Install
 
-### Aggiungere più quicklinks
-Puoi aggiungere fino a 10 quicklinks modificando:
-1. Il gruppo `group/quicklinks` in config.jsonc
-2. Creando nuovi moduli `custom/quicklink6`, `custom/quicklink7`, etc.
-3. Aggiungendo gli stili in style.css
+```bash
+# Backup your current configuration
+cp ~/.config/waybar/config.jsonc ~/.config/waybar/config.jsonc.backup
+cp ~/.config/waybar/style.css ~/.config/waybar/style.css.backup
 
-### Modificare i colori
-I colori si adattano automaticamente al tema OMArchy attivo.
-Per personalizzarli, modifica le sezioni colorate in `style.css`:
-```css
-#cpu {
-  color: #89dceb;  /* Cambia questo colore */
+# Copy configuration files
+cp config.jsonc ~/.config/waybar/
+cp style.css ~/.config/waybar/
+cp -r scripts ~/.config/waybar/
+
+# Make scripts executable
+chmod +x ~/.config/waybar/scripts/*.sh
+
+# Reload waybar
+omarchy-restart-waybar
+```
+
+## Customization
+
+### Quicklinks
+
+Edit `config.jsonc` to customize quicklinks:
+
+```jsonc
+"custom/quicklink1": {
+  "format": "🎵",  // Change icon (use Nerd Font icons)
+  "on-click": "spotify",  // Change command
+  "tooltip-format": "Spotify"  // Change tooltip
 }
 ```
 
-### Riordinare i moduli
-Modifica le sezioni `modules-left`, `modules-center`, `modules-right` in config.jsonc.
+Available Nerd Font icons:
+-  VS Code
+- 󰭹 Telegram
+- 󰊯 Brave
+- 󱓷 Obsidian
+- 󰁯 Timeshift
+- 🌐 Browser
+- 📁 Files
+- 💻 Terminal
+- 📧 Email
 
-## Compatibilità
+### Colors
 
-- ✅ Compatibile con tutti i temi OMArchy
-- ✅ Mantiene i comandi e script OMArchy
-- ✅ Funziona con i keybindings esistenti
-- ✅ Aggiorna automaticamente i colori al cambio tema
+Colors automatically adapt to your OMArchy theme. For manual customization, edit `style.css`:
+
+```css
+#cpu {
+  color: #89dceb;  /* Customize CPU color */
+}
+
+#memory {
+  color: #a6e3a1;  /* Customize Memory color */
+}
+```
+
+### Module Order
+
+Reorder modules by editing `modules-left`, `modules-center`, `modules-right` in `config.jsonc`.
+
+### Add More Quicklinks
+
+You can add up to 10 quicklinks:
+
+1. Add module definition in `config.jsonc`:
+```jsonc
+"custom/quicklink6": {
+  "format": "🎵",
+  "on-click": "spotify",
+  "tooltip-format": "Spotify"
+}
+```
+
+2. Add module name to `group/quicklinks`:
+```jsonc
+"group/quicklinks": {
+  "modules": [
+    "custom/quicklink1",
+    "custom/quicklink2",
+    "custom/quicklink3",
+    "custom/quicklink4",
+    "custom/quicklink5",
+    "custom/quicklink6"  // Add here
+  ]
+}
+```
+
+3. Add styling in `style.css`:
+```css
+#custom-quicklink6 {
+  padding: 4px 10px;
+  margin: 4px 2px;
+  font-size: 14px;
+  min-width: 24px;
+}
+```
+
+## Configuration Files
+
+- `config.jsonc` - Main waybar configuration
+- `style.css` - Visual styling
+- `scripts/theme-switcher.sh` - Theme switching script
+
+## Keybindings & Interactions
+
+- **Click theme switcher icon** (🎨): Change OMArchy theme
+- **Click CPU/Memory**: Open btop
+- **Click network**: Open network manager
+- **Click bluetooth**: Open bluetooth manager
+- **Click audio**: Open audio mixer
+- **Click quicklinks**: Launch respective applications
 
 ## Troubleshooting
 
-**La waybar non appare:**
+### Waybar doesn't appear
+
 ```bash
 pkill waybar
 waybar &
 ```
 
-**Gli script non funzionano:**
+### Scripts don't work
+
 ```bash
 chmod +x ~/.config/waybar/scripts/*.sh
 ```
 
-**Ripristinare configurazione originale:**
+### Quicklink app doesn't launch
+
+Check if the app is installed:
+```bash
+which code telegram-desktop brave obsidian timeshift-launcher
+```
+
+Install missing apps using OMArchy package manager or edit quicklinks in `config.jsonc`.
+
+### Restore original configuration
+
 ```bash
 cp ~/.config/waybar/config.jsonc.backup ~/.config/waybar/config.jsonc
 cp ~/.config/waybar/style.css.backup ~/.config/waybar/style.css
 omarchy-restart-waybar
 ```
 
+## Compatibility
+
+- ✅ All OMArchy themes
+- ✅ OMArchy commands and scripts
+- ✅ Existing keybindings
+- ✅ Auto-updates colors on theme change
+
+## File Structure
+
+```
+osharko-waybar/
+├── config.jsonc          # Main configuration
+├── style.css             # Styling
+├── scripts/
+│   └── theme-switcher.sh # Theme switcher script
+├── README.md             # This file
+├── install.sh            # Installation script
+├── .gitignore
+└── LICENSE
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Credits
+
+- Inspired by [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles)
+- Built for [OMArchy Linux](https://omarchy.org)
+- Created with Claude Code 🤖
+
+## Support
+
+If you encounter any issues, please open an issue on GitHub.
+
 ---
 
-Configurazione creata con Claude Code 🤖
+Made with ❤️ for the OMArchy community

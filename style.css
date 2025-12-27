@@ -26,6 +26,7 @@ window#waybar {
 #custom-quicklink3,
 #custom-quicklink4,
 #custom-quicklink5,
+#custom-quicklink6,
 #custom-theme-switcher,
 #cpu,
 #memory,
@@ -52,6 +53,7 @@ window#waybar {
 #custom-quicklink3:hover,
 #custom-quicklink4:hover,
 #custom-quicklink5:hover,
+#custom-quicklink6:hover,
 #custom-theme-switcher:hover,
 #cpu:hover,
 #memory:hover,
@@ -115,7 +117,8 @@ window#waybar {
 #custom-quicklink2,
 #custom-quicklink3,
 #custom-quicklink4,
-#custom-quicklink5 {
+#custom-quicklink5,
+#custom-quicklink6 {
   padding: 4px 10px;
   margin: 4px 2px;
   font-size: 14px;
