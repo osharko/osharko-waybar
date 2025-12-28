@@ -78,12 +78,12 @@
   "custom/quicklink1": {
     "format": "󰊯",
     "on-click": "brave",
-    "tooltip-format": "Brave Browser"
+    "tooltip-format": "Brave Browser\n\nSuper + Shift + B"
   },
   "custom/quicklink2": {
     "format": "",
     "on-click": "nautilus",
-    "tooltip-format": "File Manager"
+    "tooltip-format": "File Manager\n\nSuper + Shift + F"
   },
   "custom/quicklink3": {
     "format": "󰨞",
@@ -98,7 +98,7 @@
   "custom/quicklink5": {
     "format": "󱓷",
     "on-click": "obsidian",
-    "tooltip-format": "Obsidian"
+    "tooltip-format": "Obsidian\n\nSuper + Shift + F"
   },
   "custom/quicklink6": {
     "format": "󰁯",
@@ -106,7 +106,7 @@
     "tooltip-format": "Timeshift"
   },
   "custom/theme-switcher": {
-    "format": "",
+    "format": "",
     "on-click": "~/.config/waybar/scripts/theme-switcher.sh",
     "tooltip-format": "Change Theme"
   },
@@ -186,7 +186,7 @@
     }
   },
   "clock": {
-    "format": "{:L%A %H:%M}",
+    "format": "{:L%A %d %B %Y %H:%M}",
     "format-alt": "{:L%d %B W%V %Y}",
     "tooltip": false,
     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
@@ -200,8 +200,8 @@
       "󰤨"
     ],
     "format": "{icon}",
-    "format-wifi": "{icon}",
-    "format-ethernet": "󰀂",
+    "format-wifi": "{icon} ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "format-ethernet": "󰀂 ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "format-disconnected": "󰤮",
     "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
@@ -232,7 +232,11 @@
       "phone": "📱",
       "portable": "📱",
       "car": "🚗",
-      "default": ["🔈", "🔉", "🔊"]
+      "default": [
+        "",
+        "",
+        ""
+      ]
     }
   },
   "pulseaudio#microphone": {
