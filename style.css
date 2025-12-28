@@ -198,6 +198,10 @@ window#waybar {
   margin: 4px 3px;
 }
 
+#network{
+  min-width: 200px;
+}
+
 /* Microphone Colors */
 #pulseaudio\.microphone {
   color: #a6e3a1; /* Verde quando abilitato */
