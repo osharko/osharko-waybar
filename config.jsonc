@@ -102,8 +102,8 @@
   },
   "custom/quicklink6": {
     "format": "󰁯",
-    "on-click": "timeshift-launcher",
-    "tooltip-format": "Timeshift"
+    "on-click": "btrfs-assistant-launcher",
+    "tooltip-format": "Btrfs Assistant"
   },
   "custom/theme-switcher": {
     "format": "",
