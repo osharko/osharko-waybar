@@ -91,7 +91,7 @@
     "tooltip-format": "VS Code"
   },
   "custom/quicklink4": {
-    "format": "󰭹",
+    "format": "",
     "on-click": "Telegram",
     "tooltip-format": "Telegram"
   },

@@ -2,9 +2,9 @@
 # Base packages installer
 
 
-# sudo pacman -Syyu --noconfirm go btrfs-assistant visual-studio-code-bin telegram-desktop rsync nano flatpak
+sudo pacman -Syyu --noconfirm go btrfs-assistant visual-studio-code-bin telegram-desktop rsync nano flatpak
 
-# yay -Syy --noconfirm hyprmon-bin brave-bin microsoft-edge-stable-bin
+yay -Syy --noconfirm hyprmon-bin brave-bin microsoft-edge-stable-bin
 
 # Add telegram as floating
 echo '' >> ~/.config/hypr/hyprland.conf
