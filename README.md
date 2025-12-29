@@ -11,7 +11,7 @@ A modern, feature-rich Waybar configuration inspired by ML4W dotfiles, designed 
 - 📝 VS Code
 - 💬 Telegram
 - 📓 Obsidian
-- 💾 Timeshift
+- 💾 Btrfs Assistant
 
 ### 🎨 Theme Switcher
 Integrated theme switcher button to quickly change OMArchy themes without opening the menu.
@@ -78,7 +78,7 @@ These issues likely require investigating waybar's class assignment mechanism or
 ### Requirements
 - OMArchy Linux
 - Waybar
-- Optional: VS Code, Telegram, Brave, Obsidian, Timeshift
+- Optional: VS Code, Telegram, Brave, Obsidian, Btrfs Assistant
 
 ### Quick Install
 
@@ -132,7 +132,7 @@ Available Nerd Font icons:
 - 󰭹 Telegram
 - 󰊯 Brave
 - 󱓷 Obsidian
-- 󰁯 Timeshift
+- 󰁯 Btrfs Assistant
 - 🌐 Browser
 - 📁 Files
 - 💻 Terminal
@@ -230,7 +230,7 @@ chmod +x ~/.config/waybar/scripts/*.sh
 
 Check if the app is installed:
 ```bash
-which code telegram-desktop brave obsidian timeshift-launcher
+which code Telegram brave obsidian btrfs-assistant-launcher
 ```
 
 Install missing apps using OMArchy package manager or edit quicklinks in `config.jsonc`.
