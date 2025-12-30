@@ -1,7 +1,7 @@
 #!/bin/bash
 # Base packages installer
 
-sudo pacman -Syyu --noconfirm go btrfs-assistant visual-studio-code-bin telegram-desktop rsync nano flatpak blanket #gnome-online-accounts gvfs-google gvfs-onedrive
+sudo pacman -Syyu --noconfirm go btrfs-assistant visual-studio-code-bin telegram-desktop rsync nano flatpak blanket gnome-calendar gnome-clocks gnome-online-accounts gnome-control-center gvfs-goa
 yay -Syy --noconfirm hyprmon-bin brave-bin microsoft-edge-stable-bin
 
 # Customize some apps as floating

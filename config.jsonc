@@ -188,7 +188,8 @@
   "clock": {
     "format": "{:L%A %d %B %Y %H:%M}",
     "tooltip-format": "{:L%d %B W%V %Y}",
-    "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
+    "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select",
+    "on-click": "gnome-calendar"
   },
   "network": {
     "format-icons": [

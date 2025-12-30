@@ -28,6 +28,9 @@ Integrated theme switcher button to quickly change OMArchy themes without openin
 - Audio volume control with fixed width formatting
 - Microphone status indicator (󰍬 MIC when active, 󰍭 MIC when muted)
 
+###  Gnome Online Accounts 
+You can run 'Gnome Online Accounts' app and connect to your online accounts. File manager and calendar will then sync from that.
+
 ## Credits
 
 - Inspired by [ML4W Dotfiles](https://github.com/mylinuxforwork/dotfiles)

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Gnome Online Accounts
+Comment=Connect To remote Accounts
+Exec=env XDG_CURRENT_DESKTOP=GNOME gnome-control-center online-accounts
+Terminal=false
+Type=Application
+Icon=/home/osharko/.local/share/applications/icons/gnome_logo.png
+StartupNotify=true

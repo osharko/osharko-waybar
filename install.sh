@@ -5,3 +5,4 @@
 ./scripts/snapper-config.sh
 ./scripts/package-install.sh
 ./scripts/ssh.sh
+./scripts/gnome_online_accounts.sh
