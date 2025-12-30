@@ -135,7 +135,7 @@
   },
   "memory": {
     "interval": 5,
-    "format": " {used:0.1f}G",
+    "format": " {used:0.1f}G",
     "on-click": "omarchy-launch-or-focus-tui btop",
     "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G ({percentage}%)",
     "states": {
