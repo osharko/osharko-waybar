@@ -78,6 +78,7 @@
   "custom/quicklink1": {
     "format": "󰊯",
     "on-click": "brave",
+    "on-click-right": "brave --incognito",
     "tooltip-format": "Brave Browser\n\nSuper + Shift + B"
   },
   "custom/quicklink2": {
