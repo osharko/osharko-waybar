@@ -8,6 +8,14 @@ yay -Syy --noconfirm hyprmon-bin brave-bin microsoft-edge-stable-bin
 ./scripts/configure_hyprland.sh
 
 # Installing virtualization-manager
-sudo pacman -S --needed qemu-full virt-manager libvirt dnsmasq ebtables
+sudo pacman -S --needed qemu-full virt-manager libvirt dnsmasq ebtables networkmanager
 sudo systemctl enable --now libvirtd
+sudo systemctl enable --now NetworkManager
 sudo usermod -aG libvirt $(whoami)
+
+#
+# sudo nmcli con add type bridge con-name br0 ifname br0
+# sudo nmcli con modify br0 ipv4.method auto
+# sudo nmcli con add type bridge-slave con-name br0-slave ifname NOME_INTERFACCIA master br0
+# sudo nmcli con up br0
+#
