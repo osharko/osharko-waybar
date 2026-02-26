@@ -27,6 +27,7 @@ window#waybar {
 #custom-quicklink4,
 #custom-quicklink5,
 #custom-quicklink6,
+#custom-claude-usage,
 #custom-theme-switcher,
 #cpu,
 #memory,
@@ -48,6 +49,7 @@ window#waybar {
 }
 
 /* Hover Effects */
+#custom-claude-usage:hover,
 #custom-omarchy:hover,
 #custom-quicklink1:hover,
 #custom-quicklink2:hover,
@@ -125,6 +127,22 @@ window#waybar {
   margin: 4px 2px;
   font-size: 14px;
   min-width: 24px;
+}
+
+/* Claude Usage - Official Claude orange */
+#custom-claude-usage {
+  color: #D97757;
+  font-size: 13px;
+  padding: 4px 10px;
+}
+
+#custom-claude-usage.warning {
+  color: #E8A040;
+}
+
+#custom-claude-usage.critical {
+  color: #f38ba8;
+  font-weight: bold;
 }
 
 /* Theme Switcher - Special highlight */

@@ -16,6 +16,7 @@
     "custom/voxtype"
   ],
   "modules-right": [
+    "custom/claude-usage",
     "custom/theme-switcher",
     "battery",
     "group/system-info",
@@ -106,6 +107,12 @@
     "format": "󰁯",
     "on-click": "btrfs-assistant-launcher",
     "tooltip-format": "Btrfs Assistant"
+  },
+  "custom/claude-usage": {
+    "exec": "~/.config/waybar/scripts/claude-usage.sh",
+    "return-type": "json",
+    "interval": 300,
+    "tooltip": true
   },
   "custom/theme-switcher": {
     "format": "",
