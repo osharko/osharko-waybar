@@ -111,7 +111,7 @@
   "custom/claude-usage": {
     "exec": "~/.config/waybar/scripts/claude-usage.sh",
     "return-type": "json",
-    "interval": 300,
+    "interval": 30,
     "tooltip": true
   },
   "custom/theme-switcher": {
