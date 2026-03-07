@@ -1,0 +1,12 @@
+# Claude Code accounts configuration
+# Copy this file to claude-accounts.conf and fill in your accounts.
+# claude-accounts.conf is gitignored and never pushed.
+#
+# Format: LABEL|PATH
+#   LABEL: 1-2 character identifier shown in waybar (e.g. O, M, W)
+#   PATH:  path to the .claude directory containing .credentials.json
+#
+# If this file doesn't exist, falls back to ~/.claude with label "C"
+
+O|~/.claude
+M|~/.claude-matrone

@@ -134,6 +134,7 @@ window#waybar {
   color: #D97757;
   font-size: 13px;
   padding: 4px 10px;
+  min-width: 80px;
 }
 
 #custom-claude-usage.warning {
@@ -274,12 +275,14 @@ tooltip {
   background-color: @background;
   border: 1px solid alpha(@foreground, 0.2);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding: 10px 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-width: 380px;
 }
 
 tooltip label {
   color: @foreground;
+  font-size: 13px;
 }
 
 /* Group Drawer Items */
