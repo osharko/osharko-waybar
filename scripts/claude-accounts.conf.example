@@ -8,5 +8,5 @@
 #
 # If this file doesn't exist, falls back to ~/.claude with label "C"
 
-O|~/.claude
-M|~/.claude-matrone
+X|~/.claude
+Y|~/.claude-YYYYY
