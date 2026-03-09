@@ -135,7 +135,7 @@ window#waybar {
 #custom-quicklink4:hover,
 #custom-quicklink5:hover,
 #custom-quicklink6:hover {
-  transform: scale(1.1);
+  font-weight: bold;
 }
 
 /* Claude Usage - Official Claude orange */
@@ -271,16 +271,7 @@ window#waybar {
 
 #custom-update.warning {
   color: #f9e2af;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
+  font-weight: bold;
 }
 
 /* Screen Recording Indicator */
@@ -321,7 +312,6 @@ tooltip {
 tooltip label {
   color: @foreground;
   font-size: 12px;
-  line-height: 1.5;
 }
 
 /* Group Drawer Items */
