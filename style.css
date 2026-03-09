@@ -40,6 +40,7 @@ window#waybar {
 #pulseaudio\.microphone,
 #clock,
 #custom-update,
+#custom-screen-settings,
 #custom-screenrecording-indicator,
 #tray {
   background-color: @background;
@@ -159,15 +160,15 @@ window#waybar {
   font-weight: bold;
 }
 
-/* Theme Switcher - Special highlight */
+/* Theme Switcher */
 #custom-theme-switcher {
-  background: linear-gradient(135deg, alpha(@foreground, 0.1), alpha(@foreground, 0.05));
-  padding: 4px 12px;
   font-size: 14px;
 }
 
-#custom-theme-switcher:hover {
-  background: linear-gradient(135deg, alpha(@foreground, 0.2), alpha(@foreground, 0.1));
+/* Screen Settings */
+#custom-screen-settings {
+  margin-right: 6px;
+  font-size: 14px;
 }
 
 /* System Info Group */

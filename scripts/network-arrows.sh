@@ -74,25 +74,27 @@ up_str=$(format_speed "$up_bps")
 
 # Icona WiFi
 if $is_wifi; then
-  # Signal strength da /proc/net/wireless
+  # Signal strength: try /proc/net/wireless, then iw, then iwconfig
   signal_raw=$(awk -v iface="$iface:" '$1==iface{print $3}' /proc/net/wireless 2>/dev/null | tr -d '.')
-  # iwconfig fallback
-  if [[ -z "$signal_raw" ]] || [[ "$signal_raw" == "0" ]]; then
-    signal_raw=$(iwconfig "$iface" 2>/dev/null | awk '/Signal level/{gsub(/.*Signal level=/,""); gsub(/ .*/,""); print}')
-    # Normalizza dBm a percentuale (tipicamente -30 ottimo, -90 pessimo)
-    if [[ "$signal_raw" =~ ^-[0-9]+ ]]; then
-      signal_pct=$(awk "BEGIN{
-        dbm=$signal_raw
+  if [[ -n "$signal_raw" ]] && [[ "$signal_raw" != "0" ]]; then
+    signal_raw=$(awk "BEGIN{printf \"%.0f\", $signal_raw * 100 / 70}")
+  else
+    # iw dev link fallback (dBm)
+    signal_dbm=$(iw dev "$iface" link 2>/dev/null | awk '/signal/{print $2}')
+    if [[ -z "$signal_dbm" ]]; then
+      signal_dbm=$(iwconfig "$iface" 2>/dev/null | awk '/Signal level/{gsub(/.*Signal level=/,""); gsub(/ .*/,""); print}')
+    fi
+    if [[ "$signal_dbm" =~ ^-?[0-9]+ ]]; then
+      signal_raw=$(awk "BEGIN{
+        dbm=$signal_dbm
         if(dbm>=-50) pct=100
         else if(dbm<=-90) pct=0
         else pct=int((dbm+90)*2.5)
         print pct
       }")
-      signal_raw=$signal_pct
+    else
+      signal_raw=0
     fi
-  else
-    # /proc/net/wireless dà valore 0-70, normalizza a 0-100
-    signal_raw=$(awk "BEGIN{printf \"%.0f\", $signal_raw * 100 / 70}")
   fi
 
   signal_pct=${signal_raw:-0}
@@ -105,23 +107,24 @@ if $is_wifi; then
 
   # ESSID e frequenza per tooltip
   essid=$(iwconfig "$iface" 2>/dev/null | awk '/ESSID/{gsub(/.*ESSID:"/,""); gsub(/".*/,""); print}')
+  [[ -z "$essid" ]] && essid=$(iw dev "$iface" info 2>/dev/null | awk '/ssid/{print $2}')
   freq=$(iwconfig "$iface" 2>/dev/null | awk '/Frequency/{gsub(/.*Frequency:/,""); gsub(/ .*/,""); print}')
   ip=$(ip addr show "$iface" 2>/dev/null | awk '/inet /{print $2; exit}')
 
   tooltip="${wifi_icon} ${essid:-N/A}"
-  [[ -n "$freq" ]] && tooltip+="\nFreq: ${freq} GHz"
-  [[ -n "$ip" ]] && tooltip+="\nIP: ${ip}"
-  tooltip+="\n━━━━━━━━━━━━━━━━━━━━━━━"
-  tooltip+="\n⇣ Down: ${down_str}"
-  tooltip+="\n⇡ Up:   ${up_str}"
+  [[ -n "$freq" ]] && tooltip+=$'\n'"Freq: ${freq} GHz"
+  [[ -n "$ip" ]] && tooltip+=$'\n'"IP: ${ip}"
+  tooltip+=$'\n'"━━━━━━━━━━━━━━━━━━━━━━━"
+  tooltip+=$'\n'"⇣ Down: ${down_str}"
+  tooltip+=$'\n'"⇡ Up:   ${up_str}"
 else
   wifi_icon="󰀂"
   ip=$(ip addr show "$iface" 2>/dev/null | awk '/inet /{print $2; exit}')
   tooltip="󰀂 Ethernet (${iface})"
-  [[ -n "$ip" ]] && tooltip+="\nIP: ${ip}"
-  tooltip+="\n━━━━━━━━━━━━━━━━━━━━━━━"
-  tooltip+="\n⇣ Down: ${down_str}"
-  tooltip+="\n⇡ Up:   ${up_str}"
+  [[ -n "$ip" ]] && tooltip+=$'\n'"IP: ${ip}"
+  tooltip+=$'\n'"━━━━━━━━━━━━━━━━━━━━━━━"
+  tooltip+=$'\n'"⇣ Down: ${down_str}"
+  tooltip+=$'\n'"⇡ Up:   ${up_str}"
 fi
 
 # Testo con Pango markup

@@ -6,7 +6,6 @@
   "height": 34,
   "modules-left": [
     "custom/omarchy",
-    "custom/theme-switcher",
     "hyprland/workspaces",
     "group/quicklinks"
   ],
@@ -16,6 +15,9 @@
     "custom/voxtype"
   ],
   "modules-right": [
+    "custom/theme-switcher",
+    "custom/update",
+    "custom/screen-settings",
     "custom/separator-claude-pre",
     "custom/claude-usage",
     "custom/separator-claude-post",
@@ -26,7 +28,6 @@
     "group/network",
     "pulseaudio#microphone",
     "pulseaudio",
-    "custom/update",
     "tray"
   ],
   "hyprland/workspaces": {
@@ -126,6 +127,11 @@
     "format": "󰔎",
     "on-click": "~/.config/waybar/scripts/theme-switcher.sh",
     "tooltip-format": "Change Theme"
+  },
+  "custom/screen-settings": {
+    "format": "󰒓",
+    "on-click": "~/.config/waybar/scripts/screen-settings.sh",
+    "tooltip-format": "Wallpaper & Lock Settings"
   },
   "custom/separator-1": {
     "format": "│",
