@@ -2,9 +2,12 @@
 # Claude Code usage monitor for Waybar
 # Supports multiple accounts via scripts/claude-accounts.conf (gitignored)
 # Shows 5h window and weekly limit with active-limit detection
+# Caches API responses to handle rate limiting
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ACCOUNTS_CONF="${SCRIPT_DIR}/claude-accounts.conf"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/waybar"
+mkdir -p "$CACHE_DIR"
 
 # ── Load accounts ────────────────────────────────────────────────────────────
 declare -a ACCOUNT_LABELS=()
@@ -50,6 +53,48 @@ active_limit() {
     (( seven_d >= five_h )) && echo "weekly" || echo "5h"
 }
 
+# Cache helpers (TTL: 5 minutes)
+get_cached_response() {
+    local account_id="$1"
+    local cache_file="${CACHE_DIR}/claude-usage-${account_id}.json"
+    local cache_time_file="${CACHE_DIR}/claude-usage-${account_id}.time"
+
+    if [[ ! -f "$cache_file" ]] || [[ ! -f "$cache_time_file" ]]; then
+        return 1
+    fi
+
+    local cached_time=$(cat "$cache_time_file")
+    local now=$(date +%s)
+    local age=$((now - cached_time))
+
+    if (( age < 300 )); then  # 5 minute TTL
+        cat "$cache_file"
+        return 0
+    fi
+    return 1
+}
+
+save_cached_response() {
+    local account_id="$1"
+    local response="$2"
+    local cache_file="${CACHE_DIR}/claude-usage-${account_id}.json"
+    local cache_time_file="${CACHE_DIR}/claude-usage-${account_id}.time"
+
+    echo "$response" > "$cache_file"
+    date +%s > "$cache_time_file"
+}
+
+get_stale_cache() {
+    local account_id="$1"
+    local cache_file="${CACHE_DIR}/claude-usage-${account_id}.json"
+
+    if [[ -f "$cache_file" ]]; then
+        cat "$cache_file"
+        return 0
+    fi
+    return 1
+}
+
 # ── Per-account fetch ────────────────────────────────────────────────────────
 TEXT_PARTS=()
 TOOLTIP_SECTIONS=()
@@ -73,13 +118,33 @@ for i in "${!ACCOUNT_PATHS[@]}"; do
         continue
     fi
 
-    RESPONSE=$(curl -s --max-time 5 \
-        "https://api.anthropic.com/api/oauth/usage" \
-        -H "Authorization: Bearer $TOKEN" \
-        -H "anthropic-beta: oauth-2025-04-20" \
-        -H "Content-Type: application/json" 2>/dev/null)
+    # Try to get fresh cache first
+    RESPONSE=$(get_cached_response "$label")
+    CACHE_FRESH=$?
 
-    if [[ -z "$RESPONSE" ]] || echo "$RESPONSE" | jq -e '.error' &>/dev/null; then
+    # If cache is stale/missing, try API
+    if (( CACHE_FRESH != 0 )); then
+        RESPONSE=$(curl -s --max-time 5 \
+            "https://api.anthropic.com/api/oauth/usage" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "anthropic-beta: oauth-2025-04-20" \
+            -H "Content-Type: application/json" 2>/dev/null)
+
+        # If API call failed but we have stale cache, use it
+        if [[ -z "$RESPONSE" ]] || echo "$RESPONSE" | jq -e '.error' &>/dev/null; then
+            RESPONSE=$(get_stale_cache "$label")
+            if [[ -z "$RESPONSE" ]]; then
+                TEXT_PARTS+=("${label}:err")
+                TOOLTIP_SECTIONS+=("[${label}] API error or no response")
+                continue
+            fi
+        else
+            # API call succeeded, save to cache
+            save_cached_response "$label" "$RESPONSE"
+        fi
+    fi
+
+    if [[ -z "$RESPONSE" ]]; then
         TEXT_PARTS+=("${label}:err")
         TOOLTIP_SECTIONS+=("[${label}] API error or no response")
         continue
