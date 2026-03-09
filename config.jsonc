@@ -11,20 +11,21 @@
   ],
   "modules-center": [
     "clock",
-    "custom/update",
     "custom/screenrecording-indicator",
     "custom/voxtype"
   ],
   "modules-right": [
     "custom/claude-usage",
     "custom/theme-switcher",
+    "custom/separator-1",
     "battery",
     "group/system-info",
-    "memory",
+    "custom/separator-2",
     "bluetooth",
     "network",
     "pulseaudio#microphone",
     "pulseaudio",
+    "custom/update",
     "tray"
   ],
   "hyprland/workspaces": {
@@ -59,12 +60,18 @@
     "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
   },
   "custom/update": {
-    "format": "",
-    "exec": "omarchy-update-available",
+    "format": "{icon}",
+    "format-icons": {
+      "update": "",
+      "default": ""
+    },
+    "exec": "~/.config/waybar/scripts/check-update.sh",
+    "return-type": "json",
     "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
-    "tooltip-format": "Omarchy update available",
-    "signal": 7,
-    "interval": 21600
+    "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-update-available",
+    "tooltip": true,
+    "interval": 3600,
+    "signal": 7
   },
   "group/quicklinks": {
     "orientation": "horizontal",
@@ -111,13 +118,21 @@
   "custom/claude-usage": {
     "exec": "~/.config/waybar/scripts/claude-usage.sh",
     "return-type": "json",
-    "interval": 30,
+    "interval": 90,
     "tooltip": true
   },
   "custom/theme-switcher": {
     "format": "",
     "on-click": "~/.config/waybar/scripts/theme-switcher.sh",
     "tooltip-format": "Change Theme"
+  },
+  "custom/separator-1": {
+    "format": "│",
+    "tooltip": false
+  },
+  "custom/separator-2": {
+    "format": "│",
+    "tooltip": false
   },
   "group/system-info": {
     "orientation": "horizontal",
@@ -127,15 +142,16 @@
       "transition-left-to-right": false
     },
     "modules": [
-      "cpu"
+      "cpu",
+      "memory"
     ]
   },
   "cpu": {
-    "interval": 5,
+    "interval": 10,
     "format": "󰍛 {usage}%",
     "format-alt": "󰍛",
     "on-click": "omarchy-launch-or-focus-tui btop",
-    "tooltip-format": "CPU: {usage}%",
+    "tooltip-format": "CPU: {usage}% | Avg: {avg_frequency} GHz",
     "states": {
       "low": 0,
       "medium": 40,
@@ -143,10 +159,10 @@
     }
   },
   "memory": {
-    "interval": 5,
+    "interval": 10,
     "format": " {used:0.1f}G",
     "on-click": "omarchy-launch-or-focus-tui btop",
-    "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G ({percentage}%)",
+    "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G ({percentage}%)\nSwap: {swapUsed:0.1f}G / {swapTotal:0.1f}G",
     "states": {
       "low": 0,
       "medium": 40,
@@ -185,9 +201,9 @@
       ]
     },
     "format-full": "󰂅 {capacity}%",
-    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
-    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-    "interval": 5,
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}% (~{time})",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}% (~{time})",
+    "interval": 30,
     "on-click": "omarchy-menu power",
     "states": {
       "warning": 40,
@@ -196,9 +212,11 @@
   },
   "clock": {
     "format": "{:L%A %d %B %Y %H:%M}",
-    "tooltip-format": "{:L%d %B W%V %Y}",
+    "format-alt": "{:L%Z | W%V}",
+    "tooltip-format": "{:L%d %B W%V %Y | %Z}",
     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select",
-    "on-click": "gnome-calendar"
+    "on-click": "gnome-calendar",
+    "interval": 60
   },
   "network": {
     "format-icons": [
@@ -212,10 +230,10 @@
     "format-wifi": "{icon} ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "format-ethernet": "󰀂 ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
     "format-disconnected": "󰤮",
-    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}\nIP: {ipaddr}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}\nIP: {ipaddr}",
     "tooltip-format-disconnected": "Disconnected",
-    "interval": 3,
+    "interval": 5,
     "spacing": 1,
     "on-click": "omarchy-launch-wifi"
   },
@@ -231,7 +249,7 @@
     "format": "{icon} {volume:>3}%",
     "on-click": "omarchy-launch-audio",
     "on-click-right": "pamixer -t",
-    "tooltip-format": "Volume: {volume}%",
+    "tooltip-format": "Volume: {volume}% | {desc}",
     "scroll-step": 5,
     "format-muted": "🔇 {volume:>3}%",
     "format-icons": {

@@ -50,13 +50,6 @@ window#waybar {
 
 /* Hover Effects */
 #custom-claude-usage:hover,
-#custom-omarchy:hover,
-#custom-quicklink1:hover,
-#custom-quicklink2:hover,
-#custom-quicklink3:hover,
-#custom-quicklink4:hover,
-#custom-quicklink5:hover,
-#custom-quicklink6:hover,
 #custom-theme-switcher:hover,
 #cpu:hover,
 #battery:hover,
@@ -67,6 +60,12 @@ window#waybar {
 #pulseaudio\.microphone:hover {
   background-color: alpha(@foreground, 0.1);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+#custom-omarchy:hover {
+  background-color: alpha(@foreground, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
 }
 
 /* Left Modules */
@@ -127,6 +126,16 @@ window#waybar {
   margin: 4px 2px;
   font-size: 14px;
   min-width: 24px;
+  transition: all 0.2s ease;
+}
+
+#custom-quicklink1:hover,
+#custom-quicklink2:hover,
+#custom-quicklink3:hover,
+#custom-quicklink4:hover,
+#custom-quicklink5:hover,
+#custom-quicklink6:hover {
+  transform: scale(1.1);
 }
 
 /* Claude Usage - Official Claude orange */
@@ -238,11 +247,40 @@ window#waybar {
   background: linear-gradient(135deg, alpha(@foreground, 0.08), alpha(@foreground, 0.04));
 }
 
+/* Separators */
+#custom-separator-1,
+#custom-separator-2 {
+  color: alpha(@foreground, 0.2);
+  padding: 0 3px;
+  font-size: 12px;
+  min-width: 8px;
+}
+
 /* Update Indicator */
 #custom-update {
-  color: #f9e2af;
+  color: @foreground;
   font-size: 12px;
   padding: 4px 8px;
+}
+
+#custom-update.normal {
+  opacity: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+#custom-update.warning {
+  color: #f9e2af;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 /* Screen Recording Indicator */
@@ -273,16 +311,17 @@ window#waybar {
 /* Tooltip Styling */
 tooltip {
   background-color: @background;
-  border: 1px solid alpha(@foreground, 0.2);
+  border: 2px solid alpha(@foreground, 0.3);
   border-radius: 8px;
-  padding: 10px 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  min-width: 380px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  min-width: 280px;
 }
 
 tooltip label {
   color: @foreground;
-  font-size: 13px;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 /* Group Drawer Items */
