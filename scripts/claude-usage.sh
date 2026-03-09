@@ -31,6 +31,14 @@ if [[ ${#ACCOUNT_PATHS[@]} -eq 0 ]]; then
 fi
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
+# Color per utilization: dark yellow → claude orange → light red
+get_color() {
+    local pct=$1
+    if   (( pct >= 80 )); then echo "#f38ba8"
+    elif (( pct >= 30 )); then echo "#D97757"
+    else                       echo "#C8A000"
+    fi
+}
 time_remaining() {
     local reset_at="$1"
     [[ -z "$reset_at" ]] && { echo "?"; return; }
@@ -162,14 +170,16 @@ for i in "${!ACCOUNT_PATHS[@]}"; do
 
     BINDING=$(active_limit "$FIVE_H_INT" "$SEVEN_D_INT")
 
-    # Urgency class (take worst across all accounts)
-    if   (( FIVE_H_INT >= 80 || SEVEN_D_INT >= 80 )); then
+    # Urgency class e colore: tutto basato su FIVE_H_INT (valore mostrato)
+    if   (( FIVE_H_INT >= 80 )); then
         WORST_CLASS="critical"
-    elif (( FIVE_H_INT >= 50 || SEVEN_D_INT >= 50 )); then
+    elif (( FIVE_H_INT >= 30 )); then
         [[ "$WORST_CLASS" != "critical" ]] && WORST_CLASS="warning"
     fi
 
-    TEXT_PARTS+=("${label}:${FIVE_H_INT}%")
+    # Per-account color: basato sul valore mostrato (5h window)
+    ACCT_COLOR=$(get_color "$FIVE_H_INT")
+    TEXT_PARTS+=("<span color='${ACCT_COLOR}'>${label}:${FIVE_H_INT}%</span>")
 
     # Active-limit markers
     FIVE_H_MARKER="  "
@@ -198,11 +208,19 @@ for i in "${!ACCOUNT_PATHS[@]}"; do
 done
 
 # ── Build final output ───────────────────────────────────────────────────────
-if [[ ${#TEXT_PARTS[@]} -eq 1 ]]; then
-    TEXT="󰧑 ${TEXT_PARTS[0]}"
-else
-    TEXT="󰧑 $(IFS=' ∙ '; echo "${TEXT_PARTS[*]}")"
-fi
+# Icona colorata in base al peggiore tra tutti gli account
+case "$WORST_CLASS" in
+    critical) ICON_COLOR="#f38ba8" ;;
+    warning)  ICON_COLOR="#D97757" ;;
+    *)        ICON_COLOR="#C8A000" ;;
+esac
+
+# Join manuale con separatore neutro
+JOINED="${TEXT_PARTS[0]}"
+for ((j=1; j<${#TEXT_PARTS[@]}; j++)); do
+    JOINED+=" ∙ ${TEXT_PARTS[$j]}"
+done
+TEXT="<span color='${ICON_COLOR}'>󰧑</span> ${JOINED}"
 
 TOOLTIP="Claude Code Usage\n"
 TOOLTIP+="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"

@@ -6,6 +6,7 @@
   "height": 34,
   "modules-left": [
     "custom/omarchy",
+    "custom/theme-switcher",
     "hyprland/workspaces",
     "group/quicklinks"
   ],
@@ -15,14 +16,14 @@
     "custom/voxtype"
   ],
   "modules-right": [
+    "custom/separator-claude-pre",
     "custom/claude-usage",
-    "custom/theme-switcher",
-    "custom/separator-1",
+    "custom/separator-claude-post",
     "battery",
     "group/system-info",
     "custom/separator-2",
     "bluetooth",
-    "network",
+    "group/network",
     "pulseaudio#microphone",
     "pulseaudio",
     "custom/update",
@@ -122,7 +123,7 @@
     "tooltip": true
   },
   "custom/theme-switcher": {
-    "format": "",
+    "format": "󰔎",
     "on-click": "~/.config/waybar/scripts/theme-switcher.sh",
     "tooltip-format": "Change Theme"
   },
@@ -134,40 +135,45 @@
     "format": "│",
     "tooltip": false
   },
+  "custom/separator-claude-pre": {
+    "exec": "~/.config/waybar/scripts/claude-separator.sh",
+    "return-type": "json",
+    "interval": 3600,
+    "tooltip": false
+  },
+  "custom/separator-claude-post": {
+    "exec": "~/.config/waybar/scripts/claude-separator.sh",
+    "return-type": "json",
+    "interval": 3600,
+    "tooltip": false
+  },
   "group/system-info": {
     "orientation": "horizontal",
-    "drawer": {
-      "transition-duration": 500,
-      "children-class": "system-info-item",
-      "transition-left-to-right": false
-    },
     "modules": [
-      "cpu",
-      "memory"
+      "custom/cpu",
+      "custom/memory",
+      "custom/disk"
     ]
   },
-  "cpu": {
-    "interval": 10,
-    "format": "󰍛 {usage}%",
-    "format-alt": "󰍛",
-    "on-click": "omarchy-launch-or-focus-tui btop",
-    "tooltip-format": "CPU: {usage}% | Avg: {avg_frequency} GHz",
-    "states": {
-      "low": 0,
-      "medium": 40,
-      "high": 85
-    }
+  "custom/cpu": {
+    "exec": "~/.config/waybar/scripts/cpu-top.sh",
+    "return-type": "json",
+    "interval": 5,
+    "tooltip": true,
+    "on-click": "omarchy-launch-or-focus-tui btop"
   },
-  "memory": {
+  "custom/memory": {
+    "exec": "~/.config/waybar/scripts/memory-top.sh",
+    "return-type": "json",
     "interval": 10,
-    "format": " {used:0.1f}G",
-    "on-click": "omarchy-launch-or-focus-tui btop",
-    "tooltip-format": "RAM: {used:0.1f}G / {total:0.1f}G ({percentage}%)\nSwap: {swapUsed:0.1f}G / {swapTotal:0.1f}G",
-    "states": {
-      "low": 0,
-      "medium": 40,
-      "high": 85
-    }
+    "tooltip": true,
+    "on-click": "omarchy-launch-or-focus-tui btop"
+  },
+  "custom/disk": {
+    "exec": "~/.config/waybar/scripts/disk.sh",
+    "return-type": "json",
+    "interval": 5,
+    "tooltip": true
   },
   "battery": {
     "format": "{icon} {capacity}%",
@@ -218,24 +224,28 @@
     "on-click": "gnome-calendar",
     "interval": 60
   },
+  "group/network": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "children-class": "network-detail-item",
+      "transition-left-to-right": false
+    },
+    "modules": ["custom/network-arrows", "network"]
+  },
+  "custom/network-arrows": {
+    "exec": "~/.config/waybar/scripts/network-arrows.sh",
+    "return-type": "json",
+    "interval": 3,
+    "tooltip": true,
+    "on-click-right": "omarchy-launch-wifi"
+  },
   "network": {
-    "format-icons": [
-      "󰤯",
-      "󰤟",
-      "󰤢",
-      "󰤥",
-      "󰤨"
-    ],
-    "format": "{icon}",
-    "format-wifi": "{icon} ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-    "format-ethernet": "󰀂 ⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-    "format-disconnected": "󰤮",
-    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}\nIP: {ipaddr}",
-    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}\nIP: {ipaddr}",
-    "tooltip-format-disconnected": "Disconnected",
-    "interval": 5,
-    "spacing": 1,
-    "on-click": "omarchy-launch-wifi"
+    "format-wifi": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "format-disconnected": "",
+    "tooltip": false,
+    "interval": 3
   },
   "bluetooth": {
     "format": "",
