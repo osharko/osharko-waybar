@@ -120,6 +120,67 @@ window#waybar {
   opacity: 0.4;
 }
 
+/* Minimized windows restore button */
+#custom-minimized {
+  padding: 4px 10px;
+  margin: 4px 2px;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  opacity: 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+#custom-minimized.active {
+  opacity: 1;
+  padding: 4px 10px;
+  margin: 4px 2px;
+  color: #f9e2af;
+}
+
+#custom-minimized.active:hover {
+  background-color: alpha(@foreground, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Dynamic Taskbar (wlr/taskbar) */
+#taskbar {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+#taskbar button {
+  all: initial;
+  padding: 4px 10px;
+  margin: 4px 2px;
+  min-height: 0;
+  min-width: 0;
+  background-color: @background;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: @foreground;
+}
+
+#taskbar button * {
+  background-color: transparent;
+  min-height: 0;
+  min-width: 0;
+}
+
+#taskbar button:hover {
+  background-color: alpha(@foreground, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+#taskbar button.active {
+  background-color: alpha(@foreground, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 /* Quicklinks Group */
 #custom-quicklink1,
 #custom-quicklink2,
@@ -140,7 +201,18 @@ window#waybar {
 #custom-quicklink4:hover,
 #custom-quicklink5:hover,
 #custom-quicklink6:hover {
-  font-weight: bold;
+  background-color: alpha(@foreground, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* App con finestre aperte */
+#custom-quicklink1.open,
+#custom-quicklink2.open,
+#custom-quicklink3.open,
+#custom-quicklink4.open,
+#custom-quicklink5.open,
+#custom-quicklink6.open {
+  color: #a6e3a1;
 }
 
 /* Claude Usage - colori per-account via Pango markup, icona/sep via classe */

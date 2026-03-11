@@ -7,7 +7,9 @@
   "modules-left": [
     "custom/omarchy",
     "hyprland/workspaces",
-    "group/quicklinks"
+    "group/quicklinks",
+    "custom/minimized",
+    "wlr/taskbar"
   ],
   "modules-center": [
     "clock",
@@ -75,6 +77,26 @@
     "interval": 3600,
     "signal": 7
   },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 16,
+    "icon-theme": "Papirus",
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [
+      "brave-browser",
+      "Brave-browser",
+      "org.gnome.Nautilus",
+      "code",
+      "Code",
+      "TelegramDesktop",
+      "org.telegram.desktop",
+      "obsidian",
+      "btrfs-assistant",
+      "waybar-quickmenu"
+    ]
+  },
   "group/quicklinks": {
     "orientation": "horizontal",
     "modules": [
@@ -87,35 +109,72 @@
     ]
   },
   "custom/quicklink1": {
-    "format": "󰊯",
-    "on-click": "brave",
-    "on-click-right": "brave --incognito",
-    "tooltip-format": "Brave Browser\n\nSuper + Shift + B"
+    "exec": "~/.config/waybar/scripts/quicklink-status.sh '󰊯' 'brave' 'Brave Browser' 'Super + Shift + B'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/quicklink-toggle.sh 'brave' brave",
+    "on-click-right": "~/.config/waybar/scripts/quicklink-menu.sh 'brave' 'Brave Browser' brave",
+    "tooltip": true
   },
   "custom/quicklink2": {
-    "format": "",
-    "on-click": "nautilus",
-    "tooltip-format": "File Manager\n\nSuper + Shift + F"
+    "exec": "~/.config/waybar/scripts/quicklink-status.sh '' 'nautilus' 'File Manager' 'Super + Shift + F'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/quicklink-toggle.sh 'nautilus' nautilus",
+    "on-click-right": "~/.config/waybar/scripts/quicklink-menu.sh 'nautilus' 'File Manager' nautilus",
+    "tooltip": true
   },
   "custom/quicklink3": {
-    "format": "󰨞",
-    "on-click": "code",
-    "tooltip-format": "VS Code"
+    "exec": "~/.config/waybar/scripts/quicklink-status.sh '󰨞' 'code' 'VS Code'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/quicklink-toggle.sh 'code' code",
+    "on-click-right": "~/.config/waybar/scripts/quicklink-menu.sh 'code' 'VS Code' code",
+    "tooltip": true
   },
   "custom/quicklink4": {
-    "format": "",
-    "on-click": "telegram",
-    "tooltip-format": "Telegram"
+    "exec": "~/.config/waybar/scripts/quicklink-status.sh '' 'telegram' 'Telegram'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/quicklink-toggle.sh 'telegram' Telegram",
+    "on-click-right": "~/.config/waybar/scripts/quicklink-menu.sh 'telegram' 'Telegram' Telegram",
+    "tooltip": true
   },
   "custom/quicklink5": {
-    "format": "󱓷",
-    "on-click": "obsidian",
-    "tooltip-format": "Obsidian\n\nSuper + Shift + F"
+    "exec": "~/.config/waybar/scripts/quicklink-status.sh '󱓷' 'obsidian' 'Obsidian'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/quicklink-toggle.sh 'obsidian' obsidian",
+    "on-click-right": "~/.config/waybar/scripts/quicklink-menu.sh 'obsidian' 'Obsidian' obsidian",
+    "tooltip": true
   },
   "custom/quicklink6": {
-    "format": "󰁯",
-    "on-click": "btrfs-assistant-launcher",
-    "tooltip-format": "Btrfs Assistant"
+    "exec": "~/.config/waybar/scripts/quicklink-status.sh '󰁯' 'btrfs' 'Btrfs Assistant'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/quicklink-toggle.sh 'btrfs' btrfs-assistant-launcher",
+    "on-click-right": "~/.config/waybar/scripts/quicklink-menu.sh 'btrfs' 'Btrfs Assistant' btrfs-assistant-launcher",
+    "tooltip": true
+  },
+  "custom/minimized": {
+    "exec": "~/.config/waybar/scripts/minimized-status.sh",
+    "return-type": "json",
+    "interval": 3,
+    "signal": 1,
+    "on-click": "~/.config/waybar/scripts/minimized-restore.sh",
+    "tooltip": true
   },
   "custom/claude-usage": {
     "exec": "~/.config/waybar/scripts/claude-usage.sh",
