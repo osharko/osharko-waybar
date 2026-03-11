@@ -104,7 +104,7 @@
   },
   "custom/quicklink4": {
     "format": "",
-    "on-click": "Telegram",
+    "on-click": "telegram",
     "tooltip-format": "Telegram"
   },
   "custom/quicklink5": {
@@ -132,10 +132,6 @@
     "format": "󰒓",
     "on-click": "~/.config/waybar/scripts/screen-settings.sh",
     "tooltip-format": "Wallpaper & Lock Settings"
-  },
-  "custom/separator-1": {
-    "format": "│",
-    "tooltip": false
   },
   "custom/separator-2": {
     "format": "│",
@@ -178,7 +174,7 @@
   "custom/disk": {
     "exec": "~/.config/waybar/scripts/disk.sh",
     "return-type": "json",
-    "interval": 5,
+    "interval": 60,
     "tooltip": true
   },
   "battery": {
@@ -242,7 +238,7 @@
   "custom/network-arrows": {
     "exec": "~/.config/waybar/scripts/network-arrows.sh",
     "return-type": "json",
-    "interval": 3,
+    "interval": 5,
     "tooltip": true,
     "on-click-right": "omarchy-launch-wifi"
   },
