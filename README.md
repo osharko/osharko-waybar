@@ -52,7 +52,7 @@ Claude Code Usage
   󰔟 5h window  45%    → resets in 3h 22m
   󰃰 Weekly     78% ⚡  → resets in 4d 2h
 
-[M] ─────────────────────────────────────────
+[X] ─────────────────────────────────────────
   󰔟 5h window  12%    → resets in 3h 22m
   󰃰 Weekly     5%     → resets in 4d 2h
 ```
@@ -79,7 +79,7 @@ Format:
 ```
 # LABEL|PATH_TO_DOT_CLAUDE_DIR
 O|~/.claude
-M|~/.claude-matrone
+X|~/.claude-XXX
 ```
 
 - **LABEL**: 1–2 chars shown in the bar to identify the account
