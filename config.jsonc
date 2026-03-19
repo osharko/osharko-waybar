@@ -24,6 +24,7 @@
     "custom/claude-usage",
     "custom/separator-claude-post",
     "battery",
+    "custom/power-profile",
     "group/system-info",
     "custom/separator-2",
     "bluetooth",
@@ -271,11 +272,16 @@
     "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}% (~{time})",
     "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}% (~{time})",
     "interval": 30,
-    "on-click": "omarchy-menu power",
     "states": {
       "warning": 40,
       "critical": 25
     }
+  },
+  "custom/power-profile": {
+    "exec": "~/.config/waybar/scripts/power-profile.sh",
+    "return-type": "json",
+    "interval": 30,
+    "on-click": "omarchy-menu power"
   },
   "clock": {
     "format": "{:L%A %d %B %Y %H:%M}",

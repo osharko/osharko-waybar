@@ -34,6 +34,7 @@ window#waybar {
 #custom-disk,
 #custom-network-arrows,
 #battery,
+#custom-power-profile,
 #bluetooth,
 #network,
 #pulseaudio,
@@ -59,6 +60,7 @@ window#waybar {
 #custom-disk:hover,
 #custom-network-arrows:hover,
 #battery:hover,
+#custom-power-profile:hover,
 #bluetooth:hover,
 #network:hover,
 #pulseaudio:hover,
@@ -300,6 +302,16 @@ window#waybar {
   color: #f38ba8; /* Rosso (0-25%) */
   font-weight: bold;
 }
+
+/* Power Profile */
+#custom-power-profile {
+  padding: 4px 10px;
+  margin: 4px 3px;
+}
+
+#custom-power-profile.performance { color: #f38ba8; }
+#custom-power-profile.balanced    { color: #a6e3a1; }
+#custom-power-profile.power-saver { color: #89b4fa; }
 
 /* Connectivity Group */
 #bluetooth,

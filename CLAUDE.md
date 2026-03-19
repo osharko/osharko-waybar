@@ -17,6 +17,21 @@ Configurazione Waybar e script di gestione sistema per Arch Linux / Omarchy (Hyp
 
 ---
 
+## Power Profile
+
+Modulo `custom/power-profile` separato dalla batteria, sempre visibile (anche su PC senza batteria).
+
+- **Script**: `scripts/power-profile.sh` — output JSON con icona, tooltip e classe CSS
+- **Icone**: 󰓅 performance, 󰈐 balanced, 󰌪 power-saver
+- **Colori CSS**: rosso (performance), verde (balanced), blu (power-saver)
+- **Click**: apre `omarchy-menu power` (preseleziona il profilo attivo)
+- **Interval**: 30s
+- **Backend**: `powerprofilesctl get` / `powerprofilesctl set`
+
+La batteria mostra solo info batteria (percentuale, tempo rimanente), senza on-click.
+
+---
+
 ## Fingerprint Reader
 
 ### Hardware
