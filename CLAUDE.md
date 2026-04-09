@@ -32,6 +32,33 @@ La batteria mostra solo info batteria (percentuale, tempo rimanente), senza on-c
 
 ---
 
+## Brightness (custom/brightness)
+
+Controllo luminosità **hardware reale** via **DDC/CI** (`ddcutil`), agnostico al numero di schermi: enumera i display via `ddcutil detect` e applica `setvcp 10 <val>` in parallelo a tutti.
+
+- **Script**: `scripts/brightness.sh` (subcommands: `status` default, `slider`, `up`, `down`, `set N`, `init`)
+- **Setup**: `scripts/setup-ddcutil.sh` — installa ddcutil, modulo i2c-dev permanente, group i2c + udev rule, sudoers NOPASSWD per ddcutil (fallback immediato)
+- **Backend**: `ddcutil --display N --noverify setvcp 10 <0-100>` per ogni display in parallelo (`&` + `wait`)
+- **Permessi**: lo script prova prima `ddcutil` diretto, poi `sudo -n ddcutil`. Cache della modalità in `~/.cache/waybar-ddcutil-cmd`
+- **Cache**: valore corrente in `~/.cache/waybar-brightness` (default 100), display IDs in `~/.cache/waybar-ddcutil-displays`. `brightness.sh init` resetta tutto e rilegge dall'hardware
+- **Click**: zenity scale popup contestuale con `--print-partial` → applica live mentre si trascina. Bottoni: **Conferma** (rc=0, mantiene) / **Ripristina** (rc=1, torna a `orig`)
+- **Stream values**: `stdbuf -oL zenity ... | { while read v; ... }` — line-buffering forzato (altrimenti glibc block-buffera quando stdout è una pipe → niente live update). NON usare `coproc` né FIFO+`wait`: bash auto-reapa il subshell e l'exit code è inaffidabile. Usare invece `${PIPESTATUS[0]}` nel parent shell dopo la pipeline → exit code REALE di zenity
+- **Coalescing**: dentro il while-read, drain dei valori in coda con `read -r -t 0.005 next` → applica solo l'ultimo, evita la queue buildup di setvcp
+- **Single instance**: se zenity è già aperto, il secondo click sull'icona non fa nulla. NON killarlo (SIGTERM → rc≠0 → restore involontario, fa "salva sempre la prima")
+- **Popup contestuale**: window rule fa solo `float on, pin on, decorate 0, match:title ^(brightness-slider)$`. Il **posizionamento è fatto dallo script**: cattura `hyprctl cursorpos` PRIMA di aprire zenity, calcola `tx=cx-150, ty=42` (clamp ai bordi del monitor sotto il cursore via `hyprctl monitors -j`), poi loop bg che polla `hyprctl clients` per il titolo e dispatcha `movewindowpixel exact $tx $ty,title:^(brightness-slider)$` appena la finestra appare
+- **Debug log opzionale**: `touch /tmp/brightness.log.enable` → log delle operazioni in `/tmp/brightness.log`
+- **Scroll**: ±5% direttamente sul modulo
+- **Range**: 0–100 (DDC VCP 0x10 standard)
+- **Signal**: 9 (SIGRTMIN+9) — `pkill -RTMIN+9 waybar` per refresh immediato dopo set
+- **Icone**: 󰃞 (<25) 󰃝 (25-49) 󰃟 (50-74) 󰃠 (≥75)
+- **Performance**: setvcp parallelo su 3 monitor ≈ 700ms; getvcp evitato (lento), si usa la cache
+
+Note:
+- DDC/CI è agnostico dal numero di monitor: aggiungi/rimuovi schermi → basta `brightness.sh init` per ridetectare
+- Funziona solo su monitor che supportano DDC/CI (LG HDR 4K, ViewSonic XG2705-2K confermati OK)
+
+---
+
 ## Fingerprint Reader
 
 ### Hardware

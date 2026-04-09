@@ -19,6 +19,7 @@
   "modules-right": [
     "custom/theme-switcher",
     "custom/update",
+    "custom/brightness",
     "custom/screen-settings",
     "custom/separator-claude-pre",
     "custom/claude-usage",
@@ -192,6 +193,17 @@
     "format": "󰒓",
     "on-click": "~/.config/waybar/scripts/screen-settings.sh",
     "tooltip-format": "Wallpaper & Lock Settings"
+  },
+  "custom/brightness": {
+    "exec": "~/.config/waybar/scripts/brightness.sh",
+    "return-type": "json",
+    "interval": 30,
+    "signal": 9,
+    "tooltip": true,
+    "on-click": "~/.config/waybar/scripts/brightness.sh slider",
+    "on-click-right": "~/.config/waybar/scripts/brightness.sh reset",
+    "on-scroll-up": "~/.config/waybar/scripts/brightness.sh up",
+    "on-scroll-down": "~/.config/waybar/scripts/brightness.sh down"
   },
   "custom/separator-2": {
     "format": "│",

@@ -42,6 +42,7 @@ window#waybar {
 #clock,
 #custom-update,
 #custom-screen-settings,
+#custom-brightness,
 #custom-screenrecording-indicator,
 #tray {
   background-color: @background;
@@ -61,6 +62,7 @@ window#waybar {
 #custom-network-arrows:hover,
 #battery:hover,
 #custom-power-profile:hover,
+#custom-brightness:hover,
 #bluetooth:hover,
 #network:hover,
 #pulseaudio:hover,
