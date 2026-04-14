@@ -34,7 +34,13 @@ La batteria mostra solo info batteria (percentuale, tempo rimanente), senza on-c
 
 ## Brightness (custom/brightness)
 
-Controllo luminosità **hardware reale** via **DDC/CI** (`ddcutil`), agnostico al numero di schermi: enumera i display via `ddcutil detect` e applica `setvcp 10 <val>` in parallelo a tutti.
+Controllo luminosità **hardware reale** con **due backend** auto-selezionati:
+- **`sysfs`** (via `brightnessctl` su `/sys/class/backlight/*`) per laptop senza monitor esterni DDC — unico safe su pannelli eDP
+- **`ddc`** (via `ddcutil setvcp 10`) per fissi con monitor esterni, in parallelo su tutti
+
+Selezione in `resolve_backend()`: se esiste `/sys/class/backlight/*` **e** non ci sono monitor `HDMI-*`/`DP-*` in `hyprctl monitors` → `sysfs`, altrimenti `ddc`. Cache in `~/.cache/waybar-brightness-backend`, reset con `brightness.sh init`.
+
+**IMPORTANTE — perché due backend:** `ddcutil setvcp` sui bus i2c che servono un pannello eDP interno (via amdgpu/i915) può **freezare il driver GPU → crash del compositor wayland** (Teams in bg continua perché audio è indipendente). Su laptop Dell Pro Max 16 confermato crash con `ddcutil --bus 2/10 setvcp 10`: quei bus i2c appartengono ad amdgpu e servono l'eDP interno. Mai lanciare ddcutil se non ci sono monitor esterni reali.
 
 - **Script**: `scripts/brightness.sh` (subcommands: `status` default, `slider`, `up`, `down`, `set N`, `init`)
 - **Setup**: `scripts/setup-ddcutil.sh` — installa ddcutil, modulo i2c-dev permanente, group i2c + udev rule, sudoers NOPASSWD per ddcutil (fallback immediato)

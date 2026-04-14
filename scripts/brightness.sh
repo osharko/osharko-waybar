@@ -10,6 +10,39 @@ mkdir -p "$CACHE_DIR"
 VAL_FILE="$CACHE_DIR/waybar-brightness"
 DISP_FILE="$CACHE_DIR/waybar-ddcutil-displays"
 CMD_FILE="$CACHE_DIR/waybar-ddcutil-cmd"
+BACKEND_FILE="$CACHE_DIR/waybar-brightness-backend"
+
+# --- Backend selection (sysfs for laptops, ddc for external monitors) ------
+#
+# ddcutil setvcp su bus i2c che servono un pannello eDP interno (via amdgpu/i915)
+# può freezare il driver GPU → il compositor wayland crasha. Su laptop senza
+# monitor esterni DDC-capable usiamo brightnessctl (sysfs backlight) che è
+# sempre sicuro.
+resolve_backend() {
+  if [ -s "$BACKEND_FILE" ]; then
+    cat "$BACKEND_FILE"; return
+  fi
+  local b=ddc
+  if command -v brightnessctl >/dev/null 2>&1; then
+    local has_bl=0 has_ext=0 d
+    for d in /sys/class/backlight/*; do [ -e "$d" ] && has_bl=1 && break; done
+    if command -v hyprctl >/dev/null 2>&1; then
+      hyprctl monitors -j 2>/dev/null | grep -qE '"name": "(HDMI|DP)-' && has_ext=1
+    fi
+    [ "$has_bl" = 1 ] && [ "$has_ext" = 0 ] && b=sysfs
+  fi
+  echo "$b" > "$BACKEND_FILE"
+  echo "$b"
+}
+
+sysfs_get() {
+  # brightnessctl -m: device,class,current,percent,max
+  brightnessctl -m 2>/dev/null | awk -F, 'NR==1 {gsub("%","",$4); print $4}'
+}
+
+sysfs_set() {
+  brightnessctl -q set "${1}%" >/dev/null 2>&1
+}
 
 # --- ddcutil command resolution (with/without sudo, cached) ----------------
 
@@ -56,7 +89,7 @@ get_displays() {
 
 DDC_FAST_OPTS="--noverify --sleep-multiplier 0.1"
 
-read_hw_brightness() {
+ddc_read_hw() {
   local d v
   for d in $(get_displays); do
     # shellcheck disable=SC2086
@@ -68,6 +101,13 @@ read_hw_brightness() {
     fi
   done
   return 1
+}
+
+read_hw_brightness() {
+  case "$(resolve_backend)" in
+    sysfs) sysfs_get ;;
+    *)     ddc_read_hw ;;
+  esac
 }
 
 get_brightness() {
@@ -100,15 +140,24 @@ set_brightness() {
   (( v < 0   )) && v=0
   (( v > 100 )) && v=100
   echo "$v" > "$VAL_FILE"
-  local d any=0
-  for d in $(get_displays); do
-    any=1
-    # shellcheck disable=SC2086
-    ddc --bus "$d" $DDC_FAST_OPTS setvcp 10 "$v" >/dev/null 2>&1 &
-  done
-  wait
+  local rc=0
+  case "$(resolve_backend)" in
+    sysfs)
+      sysfs_set "$v" || rc=1
+      ;;
+    *)
+      local d any=0
+      for d in $(get_displays); do
+        any=1
+        # shellcheck disable=SC2086
+        ddc --bus "$d" $DDC_FAST_OPTS setvcp 10 "$v" >/dev/null 2>&1 &
+      done
+      wait
+      rc=$((1 - any))
+      ;;
+  esac
   pkill -RTMIN+9 waybar 2>/dev/null
-  return $((1 - any))
+  return $rc
 }
 
 step() {
@@ -130,14 +179,22 @@ reset() {
 # --- Output ----------------------------------------------------------------
 
 status() {
-  if ! command -v ddcutil >/dev/null 2>&1; then
-    printf '{"text":"󰃟 ?","tooltip":"ddcutil non installato.\\nEsegui: scripts/setup-ddcutil.sh","class":"brightness error"}\n'
-    return
-  fi
-  local cmd; cmd=$(resolve_cmd)
-  if [ -z "$cmd" ]; then
-    printf '{"text":"󰃟 !","tooltip":"Permessi DDC/CI mancanti.\\nEsegui: scripts/setup-ddcutil.sh","class":"brightness error"}\n'
-    return
+  local backend; backend=$(resolve_backend)
+  if [ "$backend" = "sysfs" ]; then
+    if ! command -v brightnessctl >/dev/null 2>&1; then
+      printf '{"text":"󰃟 ?","tooltip":"brightnessctl non installato","class":"brightness error"}\n'
+      return
+    fi
+  else
+    if ! command -v ddcutil >/dev/null 2>&1; then
+      printf '{"text":"󰃟 ?","tooltip":"ddcutil non installato.\\nEsegui: scripts/setup-ddcutil.sh","class":"brightness error"}\n'
+      return
+    fi
+    local cmd; cmd=$(resolve_cmd)
+    if [ -z "$cmd" ]; then
+      printf '{"text":"󰃟 !","tooltip":"Permessi DDC/CI mancanti.\\nEsegui: scripts/setup-ddcutil.sh","class":"brightness error"}\n'
+      return
+    fi
   fi
   local g idx bar
   g=$(get_brightness)
@@ -148,8 +205,13 @@ status() {
   (( idx < 0 )) && idx=0
   local glyphs=("▁" "▂" "▃" "▄" "▅" "▆" "▇" "█")
   bar=${glyphs[$idx]}
-  printf '{"text":"%s %s%%","tooltip":"Luminosità schermi (DDC/CI): %s%%\\nClick: slider\\nScroll: ±5%%\\nClick destro: reset 100%%","class":"brightness"}\n' \
-    "$bar" "$g" "$g"
+  local label
+  case "$backend" in
+    sysfs) label="backlight sysfs" ;;
+    *)     label="DDC/CI" ;;
+  esac
+  printf '{"text":"%s %s%%","tooltip":"Luminosità (%s): %s%%\\nClick: slider\\nScroll: ±5%%\\nClick destro: reset 100%%","class":"brightness"}\n' \
+    "$bar" "$g" "$label" "$g"
 }
 
 LOG_FILE="${TMPDIR:-/tmp}/brightness.log"
@@ -233,11 +295,15 @@ case "${1:-status}" in
   down)   step -5 ;;
   set)    set_brightness "${2:-100}"; show_osd "${2:-100}" ;;
   reset)  reset "${2:-100}" ;;
-  init)   rm -f "$DISP_FILE" "$CMD_FILE" "$VAL_FILE"
-          resolve_cmd >/dev/null
-          detect_displays
-          echo "Command: $(cat "$CMD_FILE")"
-          echo "Displays: $(get_displays | tr '\n' ' ')"
+  init)   rm -f "$DISP_FILE" "$CMD_FILE" "$VAL_FILE" "$BACKEND_FILE"
+          backend=$(resolve_backend)
+          echo "Backend: $backend"
+          if [ "$backend" = "ddc" ]; then
+            resolve_cmd >/dev/null
+            detect_displays
+            echo "Command: $(cat "$CMD_FILE")"
+            echo "Displays: $(get_displays | tr '\n' ' ')"
+          fi
           v=$(read_hw_brightness) && { echo "$v" > "$VAL_FILE"; echo "Current: $v%"; } || echo "Current: unknown (cache=100)"
           ;;
   status|*) status ;;
